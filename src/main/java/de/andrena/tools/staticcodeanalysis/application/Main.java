@@ -1,7 +1,7 @@
 package de.andrena.tools.staticcodeanalysis.application;
 
-import de.andrena.tools.staticcodeanalysis.asm.AsmCallAnalyzer;
-import de.andrena.tools.staticcodeanalysis.domain.invocations.CallAnalyzer;
+import de.andrena.tools.staticcodeanalysis.asm.AsmInvocationAnalyzer;
+import de.andrena.tools.staticcodeanalysis.domain.invocations.InvocationAnalyzer;
 import de.andrena.tools.staticcodeanalysis.domain.invocations.ClassFinder;
 import de.andrena.tools.staticcodeanalysis.domain.invocations.ClassInvocationsAnalyzer;
 import de.andrena.tools.staticcodeanalysis.domain.invocations.InvocationMatrixFormatter;
@@ -20,14 +20,14 @@ public class Main {
         var basePackage = args[0];
         var namePattern = args[1];
 
-        CallAnalyzer callAnalyzer = new AsmCallAnalyzer();
+        InvocationAnalyzer invocationAnalyzer = new AsmInvocationAnalyzer();
         ClassFinder finder = new ClassGraphClassFinder();
         ClassInvocationsAnalyzer analyzer = new ClassInvocationsAnalyzer(basePackage);
 
-        logger.info("Analyzing classes with root package {}, showing calls to classes matching pattern '{}'", basePackage, namePattern);
+        logger.info("Analyzing classes with root package {}, showing invocations of classes matching pattern '{}'", basePackage, namePattern);
         Set<String> classes = finder.findAllRelevantClasses(basePackage);
         logger.info("Found {} classes", classes.size());
-        callAnalyzer.analyzeCalls(classes, analyzer);
+        invocationAnalyzer.analyzeInvocations(classes, analyzer);
 
         var matchingClasses = analyzer.findInvokedClassesMatching(namePattern);
         logger.info("Found {} invoked classes matching pattern {}", matchingClasses.size(), namePattern);

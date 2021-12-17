@@ -1,15 +1,14 @@
 package de.andrena.tools.staticcodeanalysis.asm;
 
-import de.andrena.tools.staticcodeanalysis.domain.invocations.CallHandler;
+import de.andrena.tools.staticcodeanalysis.domain.invocations.InvocationHandler;
 import de.andrena.tools.staticcodeanalysis.domain.model.ClassReference;
 import de.andrena.tools.staticcodeanalysis.domain.model.MethodReference;
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-class MethodRefCollector extends MethodVisitor {
-    private final CallHandler handler;
+class MethodReferenceCollector extends MethodVisitor {
+    private final InvocationHandler handler;
     private final ClassReference classReference;
 
     static final String MF_SIG = "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;"
@@ -19,8 +18,8 @@ class MethodRefCollector extends MethodVisitor {
             + "Ljava/lang/invoke/MethodType;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;";
 
 
-    public MethodRefCollector(CallHandler handler, String className, String methodName) {
-        super(Opcodes.ASM9);
+    public MethodReferenceCollector(InvocationHandler handler, String className, String methodName) {
+        super(AsmConstants.ASM_OPCODE);
         this.handler = handler;
         this.classReference = new ClassReference(className);
     }
@@ -29,7 +28,7 @@ class MethodRefCollector extends MethodVisitor {
     public void visitMethodInsn(
             int opcode, String owner, String name, String desc, boolean itf) {
         var methodCall = new MethodSignatureFormatter().format(name, desc);
-        handler.handleCall(classReference, new MethodReference(new ClassReference(Type.getObjectType(owner).getClassName()), methodCall, name, desc));
+        handler.handleInvocation(classReference, new MethodReference(new ClassReference(Type.getObjectType(owner).getClassName()), methodCall, name, desc));
     }
 
     @Override

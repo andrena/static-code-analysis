@@ -44,7 +44,7 @@ class MainTest {
 
     private String expectedResultForOneInvokedClass() {
         return """
-                Analyzing classes with root package de.andrena.tools.staticcodeanalysis.sample.invocations, showing calls to classes matching pattern '.*AccessibilityTestService'
+                Analyzing classes with root package de.andrena.tools.staticcodeanalysis.sample.invocations, showing invocations of classes matching pattern '.*AccessibilityTestService'
                 Found 9 classes
                 Found 1 invoked classes matching pattern .*AccessibilityTestService
                 Dependencies for de.andrena.tools.staticcodeanalysis.sample.invocations.AccessibilityTestService
@@ -61,7 +61,7 @@ class MainTest {
 
     private String expectedResultForManyInvokedClasses() {
         return """
-                Analyzing classes with root package de.andrena.tools.staticcodeanalysis.sample.invocations, showing calls to classes matching pattern '.*Service'
+                Analyzing classes with root package de.andrena.tools.staticcodeanalysis.sample.invocations, showing invocations of classes matching pattern '.*Service'
                 Found 9 classes
                 Found 4 invoked classes matching pattern .*Service
                 Dependencies for de.andrena.tools.staticcodeanalysis.sample.invocations.AccessibilityTestService

@@ -30,11 +30,11 @@ Java 17 is required.
 ### Example
 ```java -cp build/test-classes:static-code-analysis-0.2.jar de.andrena.tools.staticcodeanalysis.application.Main de.andrena .*Service```
 
-This will analyze the calls below package `de.andrena` and show the invocation matrix for classes ending with `Service`.
+This will analyze the method invocations below package `de.andrena` and show the invocation matrix for classes ending with `Service`.
 
 Output:
 ```
- Analyzing classes with root package de.andrena, showing calls to classes matching pattern '.*Service'
+ Analyzing classes with root package de.andrena, showing invocations of classes matching pattern '.*Service'
  Found 9 classes
  Found 4 invoked classes matching pattern .*Service
  <...>

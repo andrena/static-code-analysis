@@ -1,21 +1,21 @@
 package de.andrena.tools.staticcodeanalysis.asm;
 
-import de.andrena.tools.staticcodeanalysis.domain.invocations.CallHandler;
+import de.andrena.tools.staticcodeanalysis.domain.invocations.InvocationHandler;
 import de.andrena.tools.staticcodeanalysis.domain.model.ClassReference;
 import de.andrena.tools.staticcodeanalysis.domain.model.MethodReference;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyHandler implements CallHandler{
+public class MyHandler implements InvocationHandler {
 
 	private final List<ClassReference> callers = new ArrayList<>();
 	private final List<MethodReference> methods = new ArrayList<>();
 
 	@Override
-	public void handleCall(ClassReference caller, MethodReference call) {
+	public void handleInvocation(ClassReference caller, MethodReference invocation) {
 		callers.add(caller);
-		methods.add(call);
+		methods.add(invocation);
 	}
 
 	public List<ClassReference> getCallers() {

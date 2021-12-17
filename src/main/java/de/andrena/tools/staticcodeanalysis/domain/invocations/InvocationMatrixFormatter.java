@@ -46,10 +46,10 @@ public class InvocationMatrixFormatter {
     }
 
     private void addMatrix(Map<MethodReference, Collection<ClassReference>> invocations, List<ClassReference> callers) {
-        var calledMethods = invocations.keySet().stream().sorted(Comparator.comparing(MethodReference::name)).toList();
-        var methodsColumnWidth = calledMethods.stream().map(MethodReference::method).mapToInt(String::length).max().orElse(0);
+        var invokedMethods = invocations.keySet().stream().sorted(Comparator.comparing(MethodReference::name)).toList();
+        var methodsColumnWidth = invokedMethods.stream().map(MethodReference::method).mapToInt(String::length).max().orElse(0);
         addMatrixHeader(callers.size(), methodsColumnWidth);
-        for (var method : calledMethods) {
+        for (var method : invokedMethods) {
             addMatrixRow(invocations, callers, methodsColumnWidth, method);
         }
     }
