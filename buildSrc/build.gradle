@@ -1,0 +1,14 @@
+plugins {
+	id 'groovy-gradle-plugin'
+}
+
+repositories {
+	jcenter()
+}
+
+dependencies {
+	implementation 'com.github.ben-manes:gradle-versions-plugin:0.28.0'
+	implementation 'com.diffplug.spotless:spotless-plugin-gradle:5.5.2'
+	implementation 'com.diffplug.gradle:goomph:3.25.0'
+	implementation 'com.github.jengelman.gradle.plugins:shadow:6.0.0'
+}

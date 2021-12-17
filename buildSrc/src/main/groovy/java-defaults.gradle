@@ -1,0 +1,20 @@
+plugins {
+	id 'java'
+}
+
+repositories {
+	jcenter()
+}
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
+}
+
+tasks.named("compileJava").configure {
+	options.encoding = 'UTF-8'
+
+	options.warnings = true
+	options.deprecation = true
+	options.compilerArgs << "-Werror"
+}

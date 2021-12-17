@@ -1,0 +1,25 @@
+plugins {
+	id 'com.diffplug.spotless'
+}
+
+spotless {
+	java {
+		importOrderFile 'src/eclipse/reporting-automation.importorder'
+		eclipse().configFile 'src/eclipse/formatting-profile.xml'
+		targetExclude("**/build/**")
+		removeUnusedImports()
+		trimTrailingWhitespace()
+	}
+	format("misc") {
+		target("**/*.gradle", "**/*.gradle.kts", "**/*.gitignore", "Makefile")
+		targetExclude("**/build/**")
+		indentWithTabs()
+		trimTrailingWhitespace()
+		endWithNewline()
+	}
+	format("documentation") {
+		target("**/*.md")
+		trimTrailingWhitespace()
+		endWithNewline()
+	}
+}
