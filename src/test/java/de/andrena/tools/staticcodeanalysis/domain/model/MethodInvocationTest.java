@@ -4,11 +4,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class MethodReferenceTest {
+class MethodInvocationTest {
 
     private static final String CLASS_NAME = "de.package.Class";
     private final ClassReference myClass = new ClassReference(CLASS_NAME);
-    private final MethodReference myMethod = new MethodReference(myClass, "List call(String,List)", "java.util.List call(java.lang.String,java.util.List)","()");
+    private final MethodInvocation myMethod = new MethodInvocation(myClass, "List call(String,List)", "java.util.List call(java.lang.String,java.util.List)","()");
 
     @Test
     void isInPackage() {

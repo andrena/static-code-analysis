@@ -10,4 +10,8 @@ jacocoTestReport {
 		xml.destination file("${buildDir}/reports/jacoco/report.xml")
 	}
 }
+
+jacoco {
+	toolVersion = "0.8.7"
+}
 check.dependsOn jacocoTestReport

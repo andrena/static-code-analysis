@@ -6,8 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class ClassReferenceTest {
 	private static final String CLASS_NAME = "de.package.Class";
-	private ClassReference myClass = new ClassReference(CLASS_NAME);
-	private ClassReference otherClass = new ClassReference("de.otherPackage.OtherClass");
+	private final ClassReference myClass = new ClassReference(CLASS_NAME);
 
 	@Test
 	void classNameMatches() {
@@ -39,13 +38,4 @@ class ClassReferenceTest {
 		assertThat(myClass.isInPackage("com")).isFalse();
 		assertThat(myClass.isInPackage("package")).isFalse();
 	}
-
-	@Test
-	void compareTo() {
-		assertThat(myClass.compareTo(myClass)).isZero();
-		assertThat(myClass.compareTo(new ClassReference(CLASS_NAME))).isZero();
-		assertThat(myClass.compareTo(otherClass)).isEqualTo(1);
-		assertThat(otherClass.compareTo(myClass)).isEqualTo(-1);
-	}
-
 }

@@ -22,16 +22,17 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.apache.logging.log4j:log4j-core:2.16.0'
-    implementation 'org.apache.logging.log4j:log4j-api:2.16.0'
+    implementation 'org.apache.logging.log4j:log4j-core:2.17.0'
+    implementation 'org.apache.logging.log4j:log4j-api:2.17.0'
+
     implementation 'org.apache.commons:commons-lang3:3.12.0'
-    implementation 'org.ow2.asm:asm:9.2'
     implementation 'com.google.guava:guava:31.0.1-jre'
-    implementation 'io.github.classgraph:classgraph:4.8.137'
-    runtimeOnly 'org.apache.logging.log4j:log4j-slf4j-impl:2.16.0'
+
+    implementation 'org.ow2.asm:asm:9.2'
+    implementation 'io.github.classgraph:classgraph:4.8.138'
 
     implementation group: 'org.threeten', name: 'threeten-extra', version: '1.7.0'
-    implementation group: 'com.github.spotbugs', name: 'spotbugs-annotations', version: '4.2.2'
+    implementation group: 'com.github.spotbugs', name: 'spotbugs-annotations', version: '4.5.2'
 
     testImplementation 'com.tngtech.archunit:archunit-junit5:0.22.0'
     testImplementation 'org.assertj:assertj-core:3.21.0'
@@ -53,6 +54,13 @@ application {
 
 test {
     useJUnitPlatform()
+}
+
+sonarqube {
+    properties {
+        property 'sonar.core.codeCoveragePlugin', 'jacoco'
+        property 'sonar.coverage.jacoco.xmlReportPaths', "${project.buildDir.getName()}/reports/jacoco/report.xml"
+    }
 }
 
 import com.github.jk1.license.render.*

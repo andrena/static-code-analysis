@@ -1,16 +1,4 @@
 package de.andrena.tools.staticcodeanalysis.domain.model;
 
-public record MethodReference(ClassReference classReference, String method, String name, String rawSignature){
-
-	public boolean isFromClass(ClassReference otherReference) {
-		return classReference.equals(otherReference);
-	}
-
-	public boolean isInPackage(String packagePrefix) {
-		return classReference.isInPackage(packagePrefix);
-	}
-
-    public boolean classNameMatches(String namePattern) {
-		return classReference.classNameMatches(namePattern);
-    }
+public record MethodReference(String method, String name, String rawSignature){
 }

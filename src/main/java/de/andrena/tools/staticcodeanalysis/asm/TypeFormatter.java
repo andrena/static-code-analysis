@@ -5,10 +5,10 @@ import org.objectweb.asm.Type;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-public class MethodSignatureFormatter {
+public class TypeFormatter {
 
 
-    public String format(String methodName, String signature) {
+    public String formatMethodSignature(String methodName, String signature) {
         var type = Type.getMethodType(signature);
         return getShortClassName(type.getReturnType()) +
                 " " +
@@ -17,6 +17,10 @@ public class MethodSignatureFormatter {
                 Arrays.stream(type.getArgumentTypes()).map(this::getShortClassName).collect(Collectors.joining(",")) +
                 ")";
 
+    }
+    public String formatType(String typeDescriptor) {
+        var type = Type.getType(typeDescriptor);
+        return getShortClassName(type);
     }
 
     private String getShortClassName(Type it) {

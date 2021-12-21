@@ -3,6 +3,7 @@ package de.andrena.tools.staticcodeanalysis.sample.invocations;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
+@SuppressWarnings("all")
 public class OneController extends  SuperController {
     private InvocationTestService mapper = new InvocationTestService();
     private PersonService persons = new PersonService();

@@ -1,6 +1,6 @@
 package de.andrena.tools.staticcodeanalysis.domain.model;
 
-public record ClassReference(String className) implements Comparable<ClassReference> {
+public record ClassReference(String className){
 
 	public boolean classNameMatches(String namePattern) {
 		return className.matches(namePattern);
@@ -27,10 +27,5 @@ public record ClassReference(String className) implements Comparable<ClassRefere
 
 	public boolean isInPackage(String packagePrefix) {
 		return className.startsWith(addTrailingDotIfRequired(packagePrefix));
-	}
-
-	@Override
-	public int compareTo(ClassReference other) {
-		return this.className.compareTo(other.className);
 	}
 }

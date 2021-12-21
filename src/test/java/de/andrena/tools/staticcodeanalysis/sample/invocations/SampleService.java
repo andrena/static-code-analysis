@@ -1,6 +1,6 @@
 package de.andrena.tools.staticcodeanalysis.sample.invocations;
 
-@SuppressWarnings("ALL")
+@SuppressWarnings("all")
 public class SampleService {
 
     public String map(int value) {

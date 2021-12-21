@@ -1,55 +1,41 @@
 package de.andrena.tools.staticcodeanalysis.application;
 
-import de.andrena.tools.staticcodeanalysis.asm.AsmInvocationAnalyzer;
-import de.andrena.tools.staticcodeanalysis.domain.invocations.InvocationAnalyzer;
-import de.andrena.tools.staticcodeanalysis.domain.invocations.ClassFinder;
-import de.andrena.tools.staticcodeanalysis.domain.invocations.ClassInvocationsAnalyzer;
-import de.andrena.tools.staticcodeanalysis.domain.invocations.InvocationMatrixFormatter;
-import de.andrena.tools.staticcodeanalysis.classgraph.ClassGraphClassFinder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Set;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Main {
 
     static Logger logger = LogManager.getLogger(Main.class);
 
-    public static void main(String[] args) {
+    private static final List<CodeAnalysis> analyses = List.of(new InvocationAnalysis(), new FieldAccessAnalysis());
+
+    public static void main(String[] args) throws InvalidUsageException {
         ensureCorrectParameters(args);
-        var basePackage = args[0];
-        var namePattern = args[1];
+        var keyword = args[0];
+        var remainingArgs = Arrays.copyOfRange(args, 1, args.length);
+        var selectedAnalysis = analyses.stream().filter(it -> it.accept(keyword)).findAny();
+        if (selectedAnalysis.isEmpty()) {
+            showUsage();
+            throw new InvalidUsageException("unknown keyword: "+keyword);
+        }
+        selectedAnalysis.get().run(remainingArgs);
+    }
 
-        InvocationAnalyzer invocationAnalyzer = new AsmInvocationAnalyzer();
-        ClassFinder finder = new ClassGraphClassFinder();
-        ClassInvocationsAnalyzer analyzer = new ClassInvocationsAnalyzer(basePackage);
-
-        logger.info("Analyzing classes with root package {}, showing invocations of classes matching pattern '{}'", basePackage, namePattern);
-        Set<String> classes = finder.findAllRelevantClasses(basePackage);
-        logger.info("Found {} classes", classes.size());
-        invocationAnalyzer.analyzeInvocations(classes, analyzer);
-
-        var matchingClasses = analyzer.findInvokedClassesMatching(namePattern);
-        logger.info("Found {} invoked classes matching pattern {}", matchingClasses.size(), namePattern);
-
-        for (var matchingClass : matchingClasses) {
-            var invocations = analyzer.getInvocationsOf(matchingClass);
-            var formattedOutput = new InvocationMatrixFormatter(basePackage).formatInvocationMatrix(invocations, matchingClass);
-            if (formattedOutput.isEmpty()) {
-                continue;
-            }
-            logger.info(formattedOutput);
+    private static void ensureCorrectParameters(String[] args) throws InvalidUsageException {
+        if (args.length < 1) {
+            showUsage();
+            throw new InvalidUsageException("required parameters: <selected analysis> <further parameters>");
         }
     }
 
-    private static void ensureCorrectParameters(String[] args) {
-        if (args.length != 2) {
-            logger.info("Required Parameters: <base package> <class name pattern>");
-            logger.info("");
-            logger.info("All calls of the classes below the given package will be analyzed, and the invocation matrix will be shown for classes matching the given pattern.");
-            logger.warn("Note: The classpath has to be specified.");
-            System.exit(1);
-        }
+    private static void showUsage() {
+        logger.info("required parameters: <selected analysis> <further parameters>");
+        logger.info("");
+        logger.info("valid analyses: {}", analyses.stream().map(CodeAnalysis::getKeyword).collect(Collectors.joining(", ")));
     }
 
 }

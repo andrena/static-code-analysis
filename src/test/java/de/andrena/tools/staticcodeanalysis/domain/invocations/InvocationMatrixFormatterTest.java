@@ -1,7 +1,7 @@
 package de.andrena.tools.staticcodeanalysis.domain.invocations;
 
 import de.andrena.tools.staticcodeanalysis.domain.model.ClassReference;
-import de.andrena.tools.staticcodeanalysis.domain.model.MethodReference;
+import de.andrena.tools.staticcodeanalysis.domain.model.MethodInvocation;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
@@ -17,18 +17,18 @@ class InvocationMatrixFormatterTest {
 
     @Test
     void formatInvocationMatrix_EmptyInvocations_ReturnsEmptyString() {
-        var result = new InvocationMatrixFormatter("").formatInvocationMatrix(Collections.emptyMap(), MY_CALLER);
+        var result = new InvocationMatrixFormatter("").formatMatrix(MY_CALLER, Collections.emptyMap());
         assertThat(result).isEmpty();
     }
 
     @Test
     void formatInvocationMatrix() {
-        Map<MethodReference, Collection<ClassReference>> invocations = Map.of(
-                method, Set.of(MY_CALLER, MY_OTHER_CALLER),
-                otherMethod, Set.of(MY_CALLER, IRRELEVANT_CLASS)
+        Map<MethodInvocation, Collection<ClassReference>> invocations = Map.of(
+                methodInvocation, Set.of(MY_CALLER, MY_OTHER_CALLER),
+                otherMethodInvocation, Set.of(MY_CALLER, IRRELEVANT_CLASS)
         );
 
-        var result = new InvocationMatrixFormatter(BASE_PACKAGE).formatInvocationMatrix(invocations, MY_SERVICE);
+        var result = new InvocationMatrixFormatter(BASE_PACKAGE).formatMatrix(MY_SERVICE, invocations);
         var expected = """
                 Dependencies for de.MyService
                                 

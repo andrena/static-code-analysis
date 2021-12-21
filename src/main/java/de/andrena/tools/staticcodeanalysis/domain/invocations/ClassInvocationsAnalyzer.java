@@ -1,7 +1,7 @@
 package de.andrena.tools.staticcodeanalysis.domain.invocations;
 
 import de.andrena.tools.staticcodeanalysis.domain.model.ClassReference;
-import de.andrena.tools.staticcodeanalysis.domain.model.MethodReference;
+import de.andrena.tools.staticcodeanalysis.domain.model.MethodInvocation;
 
 import java.util.*;
 
@@ -9,8 +9,8 @@ import static java.util.stream.Collectors.toMap;
 
 public class ClassInvocationsAnalyzer implements InvocationHandler {
 
-    private final Map<ClassReference, Set<MethodReference>> invokations = new HashMap<>();
-    private final Map<MethodReference, Set<ClassReference>> invokedBy = new HashMap<>();
+    private final Map<ClassReference, Set<MethodInvocation>> invocations = new HashMap<>();
+    private final Map<MethodInvocation, Set<ClassReference>> invokedBy = new HashMap<>();
     private final String packagePrefix;
 
     public ClassInvocationsAnalyzer(String packagePrefix) {
@@ -18,15 +18,15 @@ public class ClassInvocationsAnalyzer implements InvocationHandler {
     }
 
     @Override
-    public void handleInvocation(ClassReference caller, MethodReference invocation) {
+    public void handleInvocation(ClassReference caller, MethodInvocation invocation) {
         if (caller.equals(invocation.classReference()) || !isRelevant(invocation) || !isRelevant(caller)) {
             return;
         }
-        invokations.computeIfAbsent(caller, it -> new HashSet<>()).add(invocation);
+        invocations.computeIfAbsent(caller, it -> new HashSet<>()).add(invocation);
         invokedBy.computeIfAbsent(invocation, it -> new HashSet<>()).add(caller);
     }
 
-    private boolean isRelevant(MethodReference invocation) {
+    private boolean isRelevant(MethodInvocation invocation) {
         return invocation.isInPackage(packagePrefix);
     }
 
@@ -36,10 +36,10 @@ public class ClassInvocationsAnalyzer implements InvocationHandler {
 
     public List<ClassReference> findInvokedClassesMatching(String namePattern) {
         return invokedBy.keySet().stream().filter(it -> it.classNameMatches(namePattern))
-                .map(MethodReference::classReference).distinct().sorted().toList();
+                .map(MethodInvocation::classReference).distinct().sorted(Comparator.comparing(ClassReference::className)).toList();
     }
 
-    public Map<MethodReference, Collection<ClassReference>> getInvocationsOf(ClassReference className) {
+    public Map<MethodInvocation, Collection<ClassReference>> getInvocationsOf(ClassReference className) {
         return invokedBy.entrySet().stream()
                 .filter(it -> it.getKey().isFromClass(className))
                 .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));

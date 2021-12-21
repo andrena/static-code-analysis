@@ -1,13 +1,15 @@
-package de.andrena.tools.staticcodeanalysis.asm;
+package de.andrena.tools.staticcodeanalysis.asm.invocations;
 
+import de.andrena.tools.staticcodeanalysis.asm.AsmConstants;
+import de.andrena.tools.staticcodeanalysis.asm.TypeFormatter;
 import de.andrena.tools.staticcodeanalysis.domain.invocations.InvocationHandler;
 import de.andrena.tools.staticcodeanalysis.domain.model.ClassReference;
-import de.andrena.tools.staticcodeanalysis.domain.model.MethodReference;
+import de.andrena.tools.staticcodeanalysis.domain.model.MethodInvocation;
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
-class MethodReferenceCollector extends MethodVisitor {
+class MethodInvocationCollector extends MethodVisitor {
     private final InvocationHandler handler;
     private final ClassReference classReference;
 
@@ -18,7 +20,7 @@ class MethodReferenceCollector extends MethodVisitor {
             + "Ljava/lang/invoke/MethodType;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;";
 
 
-    public MethodReferenceCollector(InvocationHandler handler, String className, String methodName) {
+    public MethodInvocationCollector(InvocationHandler handler, String className) {
         super(AsmConstants.ASM_OPCODE);
         this.handler = handler;
         this.classReference = new ClassReference(className);
@@ -27,8 +29,8 @@ class MethodReferenceCollector extends MethodVisitor {
     @Override
     public void visitMethodInsn(
             int opcode, String owner, String name, String desc, boolean itf) {
-        var methodCall = new MethodSignatureFormatter().format(name, desc);
-        handler.handleInvocation(classReference, new MethodReference(new ClassReference(Type.getObjectType(owner).getClassName()), methodCall, name, desc));
+        var methodCall = new TypeFormatter().formatMethodSignature(name, desc);
+        handler.handleInvocation(classReference, new MethodInvocation(new ClassReference(Type.getObjectType(owner).getClassName()), methodCall, name, desc));
     }
 
     @Override
