@@ -11,7 +11,7 @@ plugins {
 }
 
 group 'de.andrena.tools'
-version '0.2'
+version '0.33'
 
 repositories {
     mavenCentral()
@@ -67,4 +67,10 @@ import com.github.jk1.license.render.*
 licenseReport {
     configurations = ['runtimeClasspath']
     renderers = [new TextReportRenderer(), new SimpleHtmlReportRenderer()]
+}
+
+task replaceVersionInREADME {
+    ant.replaceregexp(match:"${project.name}"+'-([0-9\\.]+)\\.jar', replace:"${project.name}-${version}.jar", flags:'g', byline:true) {
+        fileset(dir: '.', includes: 'README.md')
+    }
 }

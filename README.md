@@ -37,18 +37,18 @@ of the methods uses only the other half of the fields, this class could be split
 Java 17 is required.
 ### General Command Line Arguments
 
-`java -cp <additional-classpath>:static-code-analysis-0.2.jar de.andrena.tools.staticcodeanalysis.application.Main <analysis> <further parameters...>`
+`java -cp <additional-classpath>:static-code-analysis-0.3.jar de.andrena.tools.staticcodeanalysis.application.Main <analysis> <further parameters...>`
 
 ### Invocations
 #### Command Line Arguments
-`java -cp <additional-classpath>:static-code-analysis-0.2.jar de.andrena.tools.staticcodeanalysis.application.Main invocations <package prefix> <class name pattern>`
+`java -cp <additional-classpath>:static-code-analysis-0.3.jar de.andrena.tools.staticcodeanalysis.application.Main invocations <package prefix> <class name pattern>`
 
 * `<additional-classpath` specifies the classes that should be analyzed.
 * `<package prefix>` specifies the base package. All classes that reside in that package or in a subpackage will be analyzed.
 * `<class name pattern>` specifies for which classes the invocation matrix should be printed. E.g., `.*Service` will print the matrix for all classes with the suffix `Service`. The fully quantified class name is regarded.
 
 ##### Example
-```java -cp build/test-classes:static-code-analysis-0.2.jar de.andrena.tools.staticcodeanalysis.application.Main invocations de.andrena .*Service```
+```java -cp build/test-classes:static-code-analysis-0.3.jar de.andrena.tools.staticcodeanalysis.application.Main invocations de.andrena .*Service```
 
 This will analyze the method invocations below package `de.andrena` and show the invocation matrix for classes ending with `Service`.
 
@@ -78,14 +78,14 @@ Note that `<init>` denotes the constructor of `SampleService`.
 
 ### Field Accesses
 #### Command Line Arguments
-`java -cp <additional-classpath>:static-code-analysis-0.2.jar de.andrena.tools.staticcodeanalysis.application.Main fieldAccesses <package prefix> <class name pattern>`
+`java -cp <additional-classpath>:static-code-analysis-0.3.jar de.andrena.tools.staticcodeanalysis.application.Main fieldAccesses <package prefix> <class name pattern>`
 
 * `<additional-classpath` specifies the classes that should be analyzed.
 * `<package prefix>` specifies the base package. All classes that reside in that package or in a subpackage will be considered.
 * `<class name pattern>` specifies for which classes the field access matrix should be printed. E.g., `.*Service` will print the matrix for all classes with the suffix `Service`. The fully quantified class name is regarded.
 
 ##### Example
-```java -cp build/test-classes:static-code-analysis-0.2.jar de.andrena.tools.staticcodeanalysis.application.Main fieldAccesses de.andrena SimpleUsages```
+```java -cp build/test-classes:static-code-analysis-0.3.jar de.andrena.tools.staticcodeanalysis.application.Main fieldAccesses de.andrena SimpleUsages```
 
 This will analyze the field accesses for classes below package `de.andrena` with the name `SimpleUsages`.
 

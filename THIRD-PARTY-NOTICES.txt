@@ -1,5 +1,5 @@
 
-Dependency License Report for static-code-analysis 0.2
+Dependency License Report for static-code-analysis 0.3
 
 1. Group: com.github.spotbugs  Name: spotbugs-annotations  Version: 4.5.2
 
